@@ -15,12 +15,12 @@ program.
     description('start server to receive logs').
     option('-p,--port <port>', 'listen port, default is 8080', parseInt).
     option('-h,--host <host>', 'listen host, default is 0.0.0.0').
-    option('-P,--pwd <password>', 'password, default is administrator').
+    option('-P,--pwd <pwd>', 'password, default is administrator').
     action((command) => {
       const options = {
         host: command.host || '0.0.0.0',
         port: command.port || 8080,
-        password: command.password || 'administrator',
+        password: command.pwd || 'administrator',
       };
       Server.bootstrap(options);
     });
