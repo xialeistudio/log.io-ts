@@ -8,7 +8,6 @@ import * as http from 'http';
 import * as Koa from 'koa';
 import * as io from 'socket.io';
 import logger from './common/logger';
-import handler from './io/handler';
 import siteRoute from './routes/site';
 
 interface IBootstrapOptions {
@@ -40,10 +39,23 @@ export default class Server {
     // start app
     this.server = this.app.listen(this.options.port!, this.options.host, () => {
       logger.info(`http startup on ${this.server.address().address}:${this.server.address().port}`);
-      // 启动socket.io
-      this.io = io(this.server, { transports: ['websocket', 'polling'] });
-      handler(this.io);
-      logger.info(`socket.io startup`);
+      this.startupSocketIo();
     });
+  }
+
+  private startupSocketIo() {
+    // 启动socket.io
+    this.io = io(this.server, { transports: ['websocket', 'polling'] });
+    this.io.of('/log').on('connection', (socket) => {
+      socket.on('log', (node: string, category: string, message: any) => {
+        this.io.of('/administrator').emit('log', node, category, message);
+      });
+      socket.emit('ready');
+    });
+    // ready for client
+    this.io.of('/administrator').on('connection', (socket) => {
+      socket.emit('ready');
+    });
+    logger.info(`socket.io startup`);
   }
 }
