@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/xialeistudio/log.io-ts#readme",
   "dependencies": {
+    "commander": "^2.11.0",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "log4js": "github:xialeistudio/log4js-node",
@@ -27,6 +28,7 @@
     "socket.io-client": "^2.0.3"
   },
   "devDependencies": {
+    "@types/commander": "^2.9.2",
     "@types/koa": "^2.0.39",
     "@types/koa-router": "^7.0.23",
     "@types/node": "^8.0.31",

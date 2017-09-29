@@ -17,7 +17,7 @@ interface IBootstrapOptions {
   password: string;
 }
 
-class Server {
+export default class Server {
   /**
    * bootstrap the server
    * @param {IBootstrapOptions} options
@@ -47,9 +47,3 @@ class Server {
     });
   }
 }
-
-Server.bootstrap({
-  host: process.env.HOST || '0.0.0.0',
-  port: parseInt(process.env.PORT || '8080', 10),
-  password: process.env.PASSWORD || 'administrator',
-});
