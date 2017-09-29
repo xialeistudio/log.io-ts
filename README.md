@@ -1,7 +1,7 @@
 # log.io-ts
 log center based on socket.io
 ## Get Started
-1. npm install log.io-ts -g
+1. `npm install log.io-ts -g`
 2. start server `log.io start-server --pwd yourpassword --port your listen port --host your listen host`
 3. start client `log.io start-client -s http://your server host:your server port -c your config.json path`
 ## config.json
