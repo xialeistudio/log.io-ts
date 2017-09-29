@@ -1,6 +1,6 @@
 {
   "name": "log.io-ts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "log center based on socket.io",
   "main": "index.js",
   "bin": {

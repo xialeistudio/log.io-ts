@@ -37,11 +37,16 @@ export default class Client {
     this.server = options.server;
     this.socket = io(`${this.server}/log`, { transports: ['websocket', 'polling'] });
     this.socket.on('ready', () => {
+      let connected = true;
+      this.socket.on('disconnect', () => {
+        connected = false;
+        logger.warn(`server disconnected.`);
+      });
       logger.info(`server connected, client_id=${this.socket.id}`);
       // watch file
       for (const node of this.nodes) {
         fs.watch(node.path, async (event) => {
-          if (event !== 'change') {
+          if (event !== 'change' || !connected) {
             return;
           }
           const line = await lastline.read(node.path, 1);
