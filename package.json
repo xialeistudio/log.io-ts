@@ -21,9 +21,12 @@
   "homepage": "https://github.com/xialeistudio/log.io-ts#readme",
   "dependencies": {
     "commander": "^2.11.0",
+    "install": "^0.10.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
     "log4js": "github:xialeistudio/log4js-node",
+    "npm": "^5.4.2",
+    "read-last-lines": "^1.2.0",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3"
   },

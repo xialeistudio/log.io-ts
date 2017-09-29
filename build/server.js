@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Koa = require("koa");
 const io = require("socket.io");
 const logger_1 = require("./common/logger");
-const handler_1 = require("./io/handler");
 const site_1 = require("./routes/site");
 class Server {
     /**
@@ -22,11 +21,23 @@ class Server {
         // start app
         this.server = this.app.listen(this.options.port, this.options.host, () => {
             logger_1.default.info(`http startup on ${this.server.address().address}:${this.server.address().port}`);
-            // 启动socket.io
-            this.io = io(this.server, { transports: ['websocket', 'polling'] });
-            handler_1.default(this.io);
-            logger_1.default.info(`socket.io startup`);
+            this.startupSocketIo();
         });
+    }
+    startupSocketIo() {
+        // 启动socket.io
+        this.io = io(this.server, { transports: ['websocket', 'polling'] });
+        this.io.of('/log').on('connection', (socket) => {
+            socket.on('log', (node, message) => {
+                this.io.of('/administrator').emit('log', node, message);
+            });
+            socket.emit('ready');
+        });
+        // ready for client
+        this.io.of('/administrator').on('connection', (socket) => {
+            socket.emit('ready');
+        });
+        logger_1.default.info(`socket.io startup`);
     }
 }
 exports.default = Server;

@@ -47,8 +47,8 @@ export default class Server {
     // 启动socket.io
     this.io = io(this.server, { transports: ['websocket', 'polling'] });
     this.io.of('/log').on('connection', (socket) => {
-      socket.on('log', (node: string, category: string, message: any) => {
-        this.io.of('/administrator').emit('log', node, category, message);
+      socket.on('log', (node: string, message: any) => {
+        this.io.of('/administrator').emit('log', node, message);
       });
       socket.emit('ready');
     });
