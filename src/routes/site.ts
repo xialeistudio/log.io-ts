@@ -6,14 +6,15 @@
  */
 import * as Router from 'koa-router';
 
+const pkg = require('../../package.json');
+
 export default (password: string) => {
   const router = new Router();
   router.get('/', async (ctx) => {
     if (ctx.query.password !== password) {
       ctx.throw(401);
     }
-    // todo: 显示监控页面
-    ctx.body = { errmsg: 'ok', errcode: 0 };
+    await ctx.render('index', { version: pkg.version });
   });
   return router;
 };

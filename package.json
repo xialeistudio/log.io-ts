@@ -1,6 +1,6 @@
 {
   "name": "log.io-ts",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "log center based on socket.io",
   "main": "index.js",
   "bin": {
@@ -24,9 +24,12 @@
   "homepage": "https://github.com/xialeistudio/log.io-ts#readme",
   "dependencies": {
     "commander": "^2.11.0",
+    "ejs": "^2.5.7",
     "install": "^0.10.1",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "koa-views": "^6.1.0",
     "log4js": "github:xialeistudio/log4js-node",
     "npm": "^5.4.2",
     "read-last-lines": "^1.2.0",
@@ -37,6 +40,8 @@
     "@types/commander": "^2.9.2",
     "@types/koa": "^2.0.39",
     "@types/koa-router": "^7.0.23",
+    "@types/koa-static": "^3.0.1",
+    "@types/koa-views": "^2.0.2",
     "@types/node": "^8.0.31",
     "@types/socket.io": "^1.4.30",
     "@types/socket.io-client": "^1.4.30",

@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Koa = require("koa");
+const koaStatic = require("koa-static");
+const koaViews = require("koa-views");
 const io = require("socket.io");
 const logger_1 = require("./common/logger");
 const site_1 = require("./routes/site");
@@ -16,6 +18,10 @@ class Server {
     constructor(options) {
         this.options = options;
         this.app = new Koa();
+        // middlewares
+        this.app.use(koaStatic(__dirname + '/../static'));
+        this.app.use(koaViews(__dirname + '/../views', { extension: 'ejs' }));
+        // routes
         const site = site_1.default(this.options.password);
         this.app.use(site.routes()).use(site.allowedMethods());
         // start app
@@ -29,6 +35,7 @@ class Server {
         this.io = io(this.server, { transports: ['websocket', 'polling'] });
         this.io.of('/log').on('connection', (socket) => {
             socket.on('log', (node, message) => {
+                logger_1.default.info(node, message);
                 this.io.of('/administrator').emit('log', node, message);
             });
             socket.emit('ready');

@@ -7,14 +7,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @date 2017/9/29
  */
 const Router = require("koa-router");
+const pkg = require('../../package.json');
 exports.default = (password) => {
     const router = new Router();
     router.get('/', async (ctx) => {
         if (ctx.query.password !== password) {
             ctx.throw(401);
         }
-        // todo: 显示监控页面
-        ctx.body = { errmsg: 'ok', errcode: 0 };
+        await ctx.render('index', { version: pkg.version });
     });
     return router;
 };

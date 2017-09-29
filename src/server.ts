@@ -6,6 +6,8 @@
  */
 import * as http from 'http';
 import * as Koa from 'koa';
+import * as koaStatic from 'koa-static';
+import * as koaViews from 'koa-views';
 import * as io from 'socket.io';
 import logger from './common/logger';
 import siteRoute from './routes/site';
@@ -34,6 +36,10 @@ export default class Server {
   constructor(options: IBootstrapOptions) {
     this.options = options;
     this.app = new Koa();
+    // middlewares
+    this.app.use(koaStatic(__dirname + '/../static'));
+    this.app.use(koaViews(__dirname + '/../views', { extension: 'ejs' }));
+    // routes
     const site = siteRoute(this.options.password);
     this.app.use(site.routes()).use(site.allowedMethods());
     // start app
@@ -48,6 +54,7 @@ export default class Server {
     this.io = io(this.server, { transports: ['websocket', 'polling'] });
     this.io.of('/log').on('connection', (socket) => {
       socket.on('log', (node: string, message: any) => {
+        logger.info(node, message);
         this.io.of('/administrator').emit('log', node, message);
       });
       socket.emit('ready');

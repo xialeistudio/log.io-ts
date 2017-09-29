@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>日志监控</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body ng-app="app">
+<header>
+    <div class="container">
+        <h2 class="brand"><a target="_blank" href="https://www.ddhigh.com">log.io</a></h2>
+    </div>
+</header>
+<div class="container" ng-controller="list">
+    <div class="status">{{connected?'服务器已连接':'服务器连接中'}}</div>
+    <div class="list">
+        <ul>
+            <li ng-repeat="item in list">
+                <span>{{item.node}}</span> {{item.message}}
+            </li>
+        </ul>
+    </div>
+</div>
+<footer>Open Source Under MIT License. version <%= version %></footer>
+<script src="https://cdn.bootcss.com/angular.js/1.4.14/angular.js"></script>
+<script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.slim.js"></script>
+<script>
+  angular.module('app', []).controller('list', function($scope) {
+    $scope.list = [];
+    $scope.connected = false;
+    $scope.socket = io('/administrator');
+    // connect
+    $scope.socket.on('connect', function() {
+      $scope.connected = true;
+      $scope.$apply();
+    });
+    // disconnect
+    $scope.socket.on('disconnect', function() {
+      $scope.connected = false;
+      $scope.$apply();
+    });
+    // log
+    $scope.socket.on('log', function(node, message) {
+      $scope.list.unshift({ node: node, message: message });
+      if ($scope.list.length > 1000) {
+        $scope.list.pop();
+      }
+      $scope.$apply();
+    });
+  });
+</script>
+</body>
+</html>
