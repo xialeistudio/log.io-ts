@@ -1,8 +1,11 @@
 {
   "name": "log.io-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "log center based on socket.io",
   "main": "index.js",
+  "bin": {
+    "log.io": "build/bin/log.io.js"
+  },
   "scripts": {
     "build": "tsc -w"
   },
