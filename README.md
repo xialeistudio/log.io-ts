@@ -4,6 +4,7 @@ log center based on socket.io
 1. `npm install log.io-ts -g`
 2. start server `log.io start-server --pwd yourpassword --port your listen port --host your listen host`
 3. start client `log.io start-client -s http://your server host:your server port -c your config.json path`
+4. open `http://your server host:your server port?password=yourpassword`
 ## config.json
 ```json
 [
