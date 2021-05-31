@@ -31,7 +31,7 @@
     "koa-static": "^4.0.1",
     "koa-views": "^6.1.0",
     "log4js": "github:xialeistudio/log4js-node",
-    "npm": "^5.4.2",
+    "npm": "^6.14.6",
     "read-last-lines": "^1.2.0",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3"
